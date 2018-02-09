@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">PlayGround</string>
+    <string name="app_name">Playground</string>
+    <string name="notification_title">Hello world</string>
+    <string name="notification_message">mohamed</string>
+    <string name="ticker_text">ahmed</string>
 </resources>

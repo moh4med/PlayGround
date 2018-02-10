@@ -51,4 +51,10 @@
         android:onClick="onclick"
         android:tag="explicit"
         android:text="Explicit" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onclick"
+        android:tag="any"
+        android:text="any" />
 </LinearLayout>

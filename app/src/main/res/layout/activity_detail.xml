@@ -5,21 +5,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.mohamed.playground.MainActivity"
+    tools:context="com.example.mohamed.playground.DetailActivity"
     android:orientation="vertical">
-
-    <EditText
-        android:id="@+id/et_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <Button
-        android:text="detail-activity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:tag="detail"
-        android:onClick="onclick"/>
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <EditText
+        android:id="@+id/et_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
 </LinearLayout>

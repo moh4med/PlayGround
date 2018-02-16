@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PlayGround.iml" filepath="$PROJECT_DIR$/PlayGround.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libreadjson/libreadjson.iml" filepath="$PROJECT_DIR$/libreadjson/libreadjson.iml" />
     </modules>
   </component>
 </project>

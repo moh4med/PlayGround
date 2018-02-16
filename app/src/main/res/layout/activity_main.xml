@@ -9,10 +9,17 @@
     tools:context="com.example.mohamed.playground.MainActivity">
 
     <EditText
-        android:id="@+id/et_cityName"
-        android:hint="enter city"
+        android:id="@+id/et_userName"
+        android:hint="username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        />
+    <EditText
+        android:id="@+id/et_password"
+        android:hint="password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
         />
     <Button
         android:id="@+id/btn_go"

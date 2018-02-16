@@ -18,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -25,21 +26,21 @@ import java.net.URLConnection;
 public class MainActivity extends AppCompatActivity {
 
     private String TAG = MainActivity.class.getSimpleName();
-    private EditText et_cityName;
     private TextView tv_cityResult;
+    private EditText et_password;
+    private EditText et_userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        et_cityName = (EditText) findViewById(R.id.et_cityName);
+        et_userName = (EditText) findViewById(R.id.et_userName);
+        et_password = (EditText) findViewById(R.id.et_password);
         tv_cityResult = (TextView) findViewById(R.id.tv_result);
-
-
     }
 
     public void btn_go_onClick(View view) {
-        String url = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22" + et_cityName.getText().toString() + "%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
+        String url = "http://10.0.2.2/androidlogin/add.php?username=" + et_userName.getText().toString() + "&password=" + et_password.getText().toString();
         new mAsyncTask().execute(url);
     }
 
@@ -55,14 +56,8 @@ public class MainActivity extends AppCompatActivity {
             JSONObject json = null;
             try {
                 json = new JSONObject(values[0]);
-                JSONObject query = json.getJSONObject("query");
-                JSONObject results = query.getJSONObject("results");
-                JSONObject channel = results.getJSONObject("channel");
-                JSONObject astronomy = channel.getJSONObject("astronomy");
-                String sunset = astronomy.getString("sunset");
-                String sunrise = astronomy.getString("sunrise");
-
-                tv_cityResult.setText("sunset:" + sunset + ",sunrise:" + sunrise);
+                String msg = json.getString("msg");
+                tv_cityResult.setText(msg);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -76,22 +71,35 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected String doInBackground(String... Params) {
+        protected String doInBackground(String... params) {
+            // TODO Auto-generated method stub
             try {
-                URL url = new URL(Params[0]);
-                URLConnection urlConnection = (URLConnection) url.openConnection();
-                InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                String s = stream2string(in);
-                publishProgress(s);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+                String NewsData;
+                //define the url we have to connect with
+                URL url = new URL(params[0]);
+                //make connect with url and send request
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                //waiting for 7000ms for response
+                urlConnection.setConnectTimeout(7000);//set timeout to 5 seconds
+
+                try {
+                    //getting the response data
+                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                    //convert the stream to string
+                    NewsData = stream2string(in);
+                    //send to display data
+                    publishProgress(NewsData);
+                } finally {
+                    //end connection
+                    urlConnection.disconnect();
+                }
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
             return null;
         }
     }
-
     private String stream2string(InputStream in) {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
         String line;

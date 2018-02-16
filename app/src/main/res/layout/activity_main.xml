@@ -22,11 +22,17 @@
         android:inputType="textPassword"
         />
     <Button
-        android:id="@+id/btn_go"
+        android:id="@+id/btn_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Go"
-        android:onClick="btn_go_onClick"/>
+        android:text="Register"
+        android:onClick="btn_register_onClick"/>
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:onClick="btn_login_onClick"/>
     <TextView
         android:id="@+id/tv_result"
         android:layout_width="wrap_content"

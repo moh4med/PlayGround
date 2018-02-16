@@ -3,13 +3,10 @@ package com.example.mohamed.playground;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,9 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,12 +34,67 @@ public class MainActivity extends AppCompatActivity {
         tv_cityResult = (TextView) findViewById(R.id.tv_result);
     }
 
-    public void btn_go_onClick(View view) {
+    public void btn_register_onClick(View view) {
         String url = "http://10.0.2.2/androidlogin/add.php?username=" + et_userName.getText().toString() + "&password=" + et_password.getText().toString();
-        new mAsyncTask().execute(url);
+        new registerAsyncTask().execute(url);
     }
 
-    public class mAsyncTask extends AsyncTask<String, String, String> {
+    public void btn_login_onClick(View view) {
+        String url = "http://10.0.2.2/androidlogin/login.php?username=" + et_userName.getText().toString() + "&password=" + et_password.getText().toString();
+
+        new loginAsyncTask().execute(url);
+    }
+
+    public class loginAsyncTask extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+            JSONObject json = null;
+            tv_cityResult.setText(values[0]);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            // TODO Auto-generated method stub
+            try {
+                String NewsData;
+                //define the url we have to connect with
+                URL url = new URL(params[0]);
+                //make connect with url and send request
+                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+                //waiting for 7000ms for response
+                urlConnection.setConnectTimeout(7000);//set timeout to 5 seconds
+
+                try {
+                    //getting the response data
+                    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                    //convert the stream to string
+                    NewsData = stream2string(in);
+                    //send to display data
+                    publishProgress(NewsData);
+                } finally {
+                    //end connection
+                    urlConnection.disconnect();
+                }
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    public class registerAsyncTask extends AsyncTask<String, String, String> {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
@@ -100,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
+
     private String stream2string(InputStream in) {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
         String line;
